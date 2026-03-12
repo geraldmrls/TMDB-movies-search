@@ -1,22 +1,15 @@
 
 
+
+import getMatchedGenre from "../../react-functions/getMatchedGenre.js"
 import "./Hero.css"
 
-const randomIndex = Math.floor(Math.random() * 20)
 
-function Hero({ data, genres }) {
+function Hero({ data, genresData, randomIndex }) {
 
-    if (!data || !genres) return null
+    if (!data || !genresData) return null
 
-    const randomMovieIds = data.results[randomIndex].genre_ids; // this is an array from "data"
-    console.log(randomMovieIds)
-
-    //[28, 53]
-    const matchGenre = genres.genres.filter(genre=>{
-        const match = randomMovieIds.includes(genre.id)
-        return match;
-    })
-
+    const matchedGenre = getMatchedGenre(data, genresData, randomIndex);
 
     return (
         <section className="hero">
@@ -31,7 +24,7 @@ function Hero({ data, genres }) {
                     <span className="dot"></span>
                     <span>{data.results[randomIndex].release_date}</span>
                     <span className="dot"></span>
-                    <span>{matchGenre.map(genre=>{
+                    <span>{matchedGenre.map(genre => {
                         return genre.name
                     }).join(" | ")}</span>
                     <span className="dot"></span>

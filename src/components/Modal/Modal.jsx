@@ -1,30 +1,65 @@
+import { useEffect } from "react";
+import { Fragment } from "react";
 
 import "./Modal.css"
 
-function Modal() {
+function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
+
+    useEffect(() => {
+        console.log(cardId)
+    }, [cardId])
+
+    if (!movieDetails) return null;
+
+
+    function convertTime() {
+        const hours = Math.floor(movieDetails.runtime / 60);
+        const minutes = movieDetails.runtime % 60;
+        return `${hours}h ${minutes}m`
+    }
+
+    function renderGenres() {
+        return movieDetails.genres.map(genre => {
+            return (
+                <Fragment key={genre.id}>
+                    <span className="modal-genre-tag">{genre.name}</span>
+                </Fragment>
+            )
+
+        })
+    }
+
+    const trailer = movieTrailer?.results?.find(video => {
+        return video.type === "Trailer" && video.site === "YouTube"
+    })
+
     return (
         <>
-            <div className="modal-overlay">
+            <div className={`modal-overlay ${!cardId ? "" : "active"}`}>
                 <div className="modal">
-                    <button className="modal-close">✕</button>
-                    <div className="modal-poster">🎬</div>
+                    <button className="modal-close" onClick={() => {
+                        setCardId(null)
+                    }}>✕</button>
+                    <div className="modal-poster">
+                        <img src={`https://image.tmdb.org/t/p/w300${movieDetails.poster_path}`} />
+                    </div>
                     <div className="modal-body">
                         <div className="modal-genres">
-                            <span className="modal-genre-tag">Drama</span>
-                            <span className="modal-genre-tag">Thriller</span>
+                            {renderGenres()}
                         </div>
-                        <h2 className="modal-title">Movie Title Goes Here</h2>
+                        <h2 className="modal-title">{movieDetails.original_title}</h2>
                         <div className="modal-meta">
-                            <span className="rating">★ 8.4</span>
-                            <span>2024</span>
-                            <span>2h 10m</span>
+                            <span className="rating">★ {movieDetails.vote_average}</span>
+                            <span>{movieDetails.release_date}</span>
+                            <span>{convertTime()}</span>
                         </div>
                         <p className="modal-overview">
-                            The movie overview from the API goes here. This gives users a summary of the plot
-                            and tone of the film before they decide to watch the trailer or add it to their watchlist.
+                            {movieDetails.overview}
                         </p>
                         <div className="modal-actions">
-                            <button className="btn-primary">▶ Watch Trailer</button>
+                            <a href={`https://www.youtube.com/watch?v=${trailer?.key}`} target="_blank">
+                                <button className="btn-primary">▶ Watch Trailer</button>
+                            </a>
                             <button className="btn-secondary">+ Watchlist</button>
                         </div>
                     </div>

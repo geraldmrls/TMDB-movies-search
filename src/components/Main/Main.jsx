@@ -1,7 +1,18 @@
 
 import "./Main.css"
 
-function Main({ data }) {
+function Main({ data, cardId, setCardId }) {
+
+
+    function getCardId(movie){
+        if(movie.id!==cardId){
+            setCardId(movie.id);
+        }else{
+            setCardId(null)
+        }
+    }
+    
+    
 
     return (
         <>
@@ -35,7 +46,7 @@ function Main({ data }) {
                                     <div className="card-rating">★ {movie.vote_average}</div>
                                     <div className="card-overlay">
                                         <button className="card-overlay-btn" onClick={() => {
-                                            console.log("working")
+                                            getCardId(movie)
                                         }}>Details</button>
                                     </div>
                                 </div>
