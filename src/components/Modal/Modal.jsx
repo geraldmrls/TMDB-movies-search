@@ -35,8 +35,8 @@ function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
 
     return (
         <>
-            <div className={`modal-overlay ${!cardId ? "" : "active"}`}>
-                <div className="modal">
+            <div className={`modal-overlay ${!cardId ? "" : "active"}`} onClick={()=>{setCardId(null)}}>
+                <div className="modal" onClick={(e)=>{e.stopPropagation()}}>
                     <button className="modal-close" onClick={() => {
                         setCardId(null)
                     }}>✕</button>

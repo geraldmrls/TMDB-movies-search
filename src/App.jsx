@@ -63,7 +63,7 @@ function App() {
       <Hero data={data} genresData={genresData} randomIndex={randomIndex} />
 
       {/* ----MAIN---- */}
-      <Main data={data} cardId={cardId} setCardId={setCardId} />
+      <Main data={data} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY}/>
 
       {/* ─── MODAL ─── */}
       <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer}/>
