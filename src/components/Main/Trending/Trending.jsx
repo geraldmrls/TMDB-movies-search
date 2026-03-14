@@ -26,7 +26,7 @@ function Trending({ API_KEY }) {
                 {/* 🔧 Replace with: fetch /trending/movie/week */}
                 <div className="movies-row">
                     {trendingData?.results.map(movie => (
-                        <div className="movie-card" key={movie}>
+                        <div className="movie-card" key={movie.id}>
                             <div className="card-poster">
                                 <div className="card-img-placeholder">
                                     <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}/>

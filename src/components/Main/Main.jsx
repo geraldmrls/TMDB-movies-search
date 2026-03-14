@@ -8,18 +8,21 @@ import Trending from "./Trending/Trending";
 import "./Main.css"
 
 
-function Main({ data, cardId, setCardId, API_KEY }) {
+function Main({ popularData, cardId, setCardId, API_KEY, setPage, page }) {
+
     const [discoverMovie, setDiscoverMovie] = useState(null)
     const [genreId, setGenreId] = useState(null)
+    const [buttons, setButtons] = useState([1, 2, 3]);
     useEffect(() => {
         const discoverMoviesById = async () => {
             if (genreId) {
-                const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&api_key=${API_KEY}`)
+                const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&api_key=${API_KEY}&page=${page}`)
                 setDiscoverMovie(response.data);
             }
         }
         discoverMoviesById();
-    }, [genreId, API_KEY])
+    }, [genreId, API_KEY, page])
+
 
     function getCardId(movie) {
         if (movie.id !== cardId) {
@@ -37,15 +40,43 @@ function Main({ data, cardId, setCardId, API_KEY }) {
     const horror = 27;
     const romance = 10749;
 
+
+    function renderButtons() {
+
+        if (page > buttons[2]) {
+            setButtons(() => {
+                return buttons.map(button => {
+                    return button + 3
+                })
+            })
+        }
+
+        if (page < buttons[0]) {
+            setButtons(() => {
+                return buttons.map(buttons => {
+                    return buttons - 3
+                })
+            })
+        }
+
+
+        return buttons.map(num => {
+            return (
+                <button key={num} className={`page-btn ${page === num ? "active" : ""}`} onClick={() => setPage(num)}>{num}</button>
+            )
+        })
+
+    }
+
     function renderGrid() {
         if (genreId === null) {
             return (
                 <>
-                    {data && data.results.map(movie => (
+                    {popularData && popularData.results.map(movie => (
                         <div className="movie-card" key={movie.id} >
                             <div className="card-poster">
                                 <div className="card-img-placeholder">
-                                    <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="movie poster" />
+                                    <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
                                 </div>
                                 <div className="card-rating">★ {movie.vote_average}</div>
                                 <div className="card-overlay" onClick={() => getCardId(movie)}>
@@ -68,7 +99,7 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                             <div className="movie-card" key={movie.id} >
                                 <div className="card-poster">
                                     <div className="card-img-placeholder">
-                                        <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="movie poster" />
+                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
                                     </div>
                                     <div className="card-rating">★ {movie.vote_average}</div>
                                     <div className="card-overlay" onClick={() => getCardId(movie)}>
@@ -98,14 +129,14 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                     </div>
 
                     <div className="genre-tabs">
-                        <button className={`genre-tab ${genreId===null ? "active" : ""}`} onClick={()=>setGenreId(null)}>All</button>
-                        <button className={`genre-tab ${genreId===action ? "active" : ""}`} onClick={() => setGenreId(action)}>Action</button>
-                        <button className={`genre-tab ${genreId===drama ? "active" : ""}`} onClick={() => setGenreId(drama)}>Drama</button>
-                        <button className={`genre-tab ${genreId===comedy ? "active" : ""}`} onClick={() => setGenreId(comedy)}>Comedy</button>
-                        <button className={`genre-tab ${genreId===thriller ? "active" : ""}`} onClick={() => setGenreId(thriller)}>Thriller</button>
-                        <button className={`genre-tab ${genreId===sciFiction ? "active" : ""}`} onClick={() => setGenreId(sciFiction)}>Sci-Fi</button>
-                        <button className={`genre-tab ${genreId===horror ? "active" : ""}`} onClick={() => setGenreId(horror)}>Horror</button>
-                        <button className={`genre-tab ${genreId===romance ? "active" : ""}`} onClick={() => setGenreId(romance)}>Romance</button>
+                        <button className={`genre-tab ${genreId === null ? "active" : ""}`} onClick={() => setGenreId(null)}>All</button>
+                        <button className={`genre-tab ${genreId === action ? "active" : ""}`} onClick={() => setGenreId(action)}>Action</button>
+                        <button className={`genre-tab ${genreId === drama ? "active" : ""}`} onClick={() => setGenreId(drama)}>Drama</button>
+                        <button className={`genre-tab ${genreId === comedy ? "active" : ""}`} onClick={() => setGenreId(comedy)}>Comedy</button>
+                        <button className={`genre-tab ${genreId === thriller ? "active" : ""}`} onClick={() => setGenreId(thriller)}>Thriller</button>
+                        <button className={`genre-tab ${genreId === sciFiction ? "active" : ""}`} onClick={() => setGenreId(sciFiction)}>Sci-Fi</button>
+                        <button className={`genre-tab ${genreId === horror ? "active" : ""}`} onClick={() => setGenreId(horror)}>Horror</button>
+                        <button className={`genre-tab ${genreId === romance ? "active" : ""}`} onClick={() => setGenreId(romance)}>Romance</button>
                     </div>
 
                     {/* 🔧 Replace with: {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)} */}
@@ -114,17 +145,26 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                     </div>
 
                     <div className="pagination">
-                        <button className="page-btn">‹</button>
-                        <button className="page-btn active">1</button>
-                        <button className="page-btn">2</button>
-                        <button className="page-btn">3</button>
-                        <button className="page-btn">›</button>
+                        {/* return button */}
+                        <button className="page-btn" onClick={() => {
+                            setPage(() => {
+                                if (page <= 1) {
+                                    return 1
+                                }
+                                return page - 1
+                            })
+                        }}>‹</button>
+                        {renderButtons()}
+
+                        {/* next button */}
+                        <button className="page-btn" onClick={() => setPage(page + 1)}>›</button>
+
                     </div>
                 </section>
 
                 {/* Trending Row */}
-                <Trending API_KEY={API_KEY}/>
-                
+                <Trending API_KEY={API_KEY} />
+
             </main>
         </>
     )
