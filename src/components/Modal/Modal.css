@@ -24,6 +24,7 @@
   grid-template-columns: 260px 1fr;
   overflow: hidden;
   position: relative;
+  border-radius: 5px;
 }
 .modal-poster {
   width: 100%;
@@ -117,4 +118,63 @@
 }
 .btn-secondary:hover { border-color: var(--gold); transform: translateY(-1px); }
 
- 
+ @media (max-width: 768px) {
+
+  .modal-overlay{
+    overscroll-behavior: contain;
+  }
+
+  .modal {
+    grid-template-columns: 1fr;
+    max-height: 80vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    background: rgba(10,10,10,0.8);
+    color: var(--text);
+    padding: 20px 25px;
+  }
+
+  .modal-poster {
+    max-height: 300px;
+    aspect-ratio: unset;
+    position: relative;
+  }
+
+  .modal-poster img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .modal-body {
+    padding: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    margin-top: 25px;
+  }
+
+  .modal-genres {
+    margin-top: 0;
+    position: static;  /* ← fixes genres overlapping image */
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    padding-bottom: 20px;  /* ← makes buttons fully visible */
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}

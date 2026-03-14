@@ -71,3 +71,12 @@ footer {
   .modal-poster { max-height: 240px; aspect-ratio: unset; }
   .movies-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
+
+@media (width<=768px){
+  .footer-logo{
+    display: none;
+  }
+  footer{
+    padding: 36px 40px;
+  }
+}

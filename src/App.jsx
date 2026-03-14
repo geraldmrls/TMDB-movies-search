@@ -73,7 +73,7 @@ function App() {
       <footer>
         <div className="footer-logo">Cine<span>Vault</span></div>
         <span>Powered by TMDB API</span>
-        <span>© 2024 · Personal Project</span>
+        <span>© 2024 · By Gerald Morales</span>
       </footer>
     </>
   );
