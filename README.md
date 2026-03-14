@@ -3,7 +3,8 @@
 A movie discovery app built with React and the TMDB API.
 
 ## Live Demo
-[Coming soon]
+## Live Demo
+[CineVault](https://tmdb-movies-search-ezj6.vercel.app)
 
 ## Features
 - Browse popular movies
