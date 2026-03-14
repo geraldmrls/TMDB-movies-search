@@ -1,7 +1,12 @@
 
-import "./Main.css"
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+// components
+import Trending from "./Trending/Trending";
+
+import "./Main.css"
+
 
 function Main({ data, cardId, setCardId, API_KEY }) {
     const [discoverMovie, setDiscoverMovie] = useState(null)
@@ -40,7 +45,7 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                         <div className="movie-card" key={movie.id} >
                             <div className="card-poster">
                                 <div className="card-img-placeholder">
-                                    <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                    <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="movie poster" />
                                 </div>
                                 <div className="card-rating">★ {movie.vote_average}</div>
                                 <div className="card-overlay" onClick={() => getCardId(movie)}>
@@ -63,7 +68,7 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                             <div className="movie-card" key={movie.id} >
                                 <div className="card-poster">
                                     <div className="card-img-placeholder">
-                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                        <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="movie poster" />
                                     </div>
                                     <div className="card-rating">★ {movie.vote_average}</div>
                                     <div className="card-overlay" onClick={() => getCardId(movie)}>
@@ -118,35 +123,8 @@ function Main({ data, cardId, setCardId, API_KEY }) {
                 </section>
 
                 {/* Trending Row */}
-                <section className="scroll-section">
-                    <div className="section-header">
-                        <h2 className="section-title">Trending <span>This Week</span></h2>
-                        <a href="#" className="section-link">View all →</a>
-                    </div>
-                    {/* 🔧 Replace with: fetch /trending/movie/week */}
-                    <div className="movies-row">
-                        {[
-                            { emoji: "🎬", rating: "8.1", year: "2024" },
-                            { emoji: "🎭", rating: "7.3", year: "2023" },
-                            { emoji: "🎥", rating: "9.1", year: "2024" },
-                            { emoji: "🎞️", rating: "6.9", year: "2022" },
-                            { emoji: "🎬", rating: "7.7", year: "2024" },
-                            { emoji: "🎭", rating: "8.3", year: "2023" },
-                        ].map((m, i) => (
-                            <div className="movie-card" key={i}>
-                                <div className="card-poster">
-                                    <div className="card-img-placeholder">{m.emoji}</div>
-                                    <div className="card-rating">★ {m.rating}</div>
-                                    <div className="card-overlay">
-                                        <button className="card-overlay-btn">Details</button>
-                                    </div>
-                                </div>
-                                <div className="card-title">movie title</div>
-                                <div className="card-year">{m.year}</div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                <Trending API_KEY={API_KEY}/>
+                
             </main>
         </>
     )
