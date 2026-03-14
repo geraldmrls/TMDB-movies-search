@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-import "./trending.css"
+import "./Trending.css"
 
 function Trending({ API_KEY }) {
     const [trendingData, setTrendingData] = useState(null)
