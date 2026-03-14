@@ -8,11 +8,20 @@ import Trending from "./Trending/Trending";
 import "./Main.css"
 
 
-function Main({ popularData, cardId, setCardId, API_KEY, setPage, page }) {
+function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading }) {
 
     const [discoverMovie, setDiscoverMovie] = useState(null)
-    const [genreId, setGenreId] = useState(null)
+    const [genreId, setGenreId] = useState(() => {
+        const genreIdSaved = localStorage.getItem("genre-id");
+        return genreIdSaved ? JSON.parse(genreIdSaved) : null
+    })
     const [buttons, setButtons] = useState([1, 2, 3]);
+
+
+    useEffect(() => {
+        localStorage.setItem("genre-id", JSON.stringify(genreId))
+    }, [genreId])
+
     useEffect(() => {
         const discoverMoviesById = async () => {
             if (genreId) {
@@ -22,6 +31,12 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page }) {
         }
         discoverMoviesById();
     }, [genreId, API_KEY, page])
+
+    function renderSkeleton() {
+        return [1, 2, 3, 4, 5, 6, 7, 8].map(num => (
+            <div className="skeleton-card" key={num}></div>
+        ))
+    }
 
 
     function getCardId(movie) {
@@ -69,6 +84,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page }) {
     }
 
     function renderGrid() {
+        if (isLoading) return renderSkeleton()
         if (genreId === null) {
             return (
                 <>

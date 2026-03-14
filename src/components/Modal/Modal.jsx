@@ -1,13 +1,8 @@
-import { useEffect } from "react";
 import { Fragment } from "react";
 
 import "./Modal.css"
 
 function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
-
-    useEffect(() => {
-        console.log(cardId)
-    }, [cardId])
 
     if (!movieDetails) return null;
 

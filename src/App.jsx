@@ -18,10 +18,20 @@ function App() {
   const [cardId, setCardId] = useState(null); //state lifted for Modal component
   const [movieDetails, setMovieDetails] = useState(null)
   const [movieTrailer, SetMovieTrailer] = useState(null)
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(() => {
+    const pageSaved = localStorage.getItem("page");
+    return pageSaved ? JSON.parse(pageSaved) : 1
+  });
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(()=>{
+    localStorage.setItem("page", JSON.stringify(page))
+  }, [page])
 
   useEffect(() => {
     const tmbdData = async () => {
+      setIsLoading(true)
+
       let response = await axios.get(
         `https://api.themoviedb.org/3/movie/popular?page=${page}&api_key=${API_KEY}`
       );
@@ -29,7 +39,7 @@ function App() {
 
       response = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
       setGenresData(response.data)
-
+      setIsLoading(false)
     };
     tmbdData();
   }, [page]);
@@ -38,36 +48,33 @@ function App() {
   useEffect(() => {
     const getMovieDetails = async () => {
       if (cardId) {
+        setIsLoading(true)
         let response = await axios.get(`https://api.themoviedb.org/3/movie/${cardId}?api_key=${API_KEY}`);
         setMovieDetails(response.data);
 
 
         response = await axios.get(`https://api.themoviedb.org/3/movie/${cardId}/videos?api_key=${API_KEY}`);
         SetMovieTrailer(response.data)
+        setIsLoading(false)
       }
 
     }
     getMovieDetails()
   }, [cardId])
 
-  useEffect(()=>{
-    console.log(movieTrailer)
-  }, [movieTrailer])
-
-
   return (
     <>
       {/* ─── NAVBAR Header─── */}
-      <Header/>
+      <Header />
 
       {/* ─── HERO ─── */}
       <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} />
 
       {/* ----MAIN---- */}
-      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page}/>
+      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} />
 
       {/* ─── MODAL ─── */}
-      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer}/>
+      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} />
 
       {/* ─── FOOTER ─── */}
       <footer>
