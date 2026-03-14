@@ -55,34 +55,6 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
     const horror = 27;
     const romance = 10749;
 
-
-    function renderButtons() {
-
-        if (page > buttons[2]) {
-            setButtons(() => {
-                return buttons.map(button => {
-                    return button + 3
-                })
-            })
-        }
-
-        if (page < buttons[0]) {
-            setButtons(() => {
-                return buttons.map(buttons => {
-                    return buttons - 3
-                })
-            })
-        }
-
-
-        return buttons.map(num => {
-            return (
-                <button key={num} className={`page-btn ${page === num ? "active" : ""}`} onClick={() => setPage(num)}>{num}</button>
-            )
-        })
-
-    }
-
     function renderGrid() {
         if (isLoading) return renderSkeleton()
         if (genreId === null) {
@@ -134,6 +106,33 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
         }
     }
 
+    function renderButtons() {
+
+        if (page > buttons[2]) {
+            setButtons(() => {
+                return buttons.map(button => {
+                    return button + 3
+                })
+            })
+        }
+
+        if (page < buttons[0]) {
+            setButtons(() => {
+                return buttons.map(buttons => {
+                    return buttons - 3
+                })
+            })
+        }
+
+
+        return buttons.map(num => {
+            return (
+                <button key={num} className={`page-btn ${page === num ? "active" : ""}`} onClick={() => setPage(num)}>{num}</button>
+            )
+        })
+
+    }
+
     return (
         <>
             {/* ─── MAIN ─── */}
@@ -145,14 +144,45 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                     </div>
 
                     <div className="genre-tabs">
-                        <button className={`genre-tab ${genreId === null ? "active" : ""}`} onClick={() => setGenreId(null)}>All</button>
-                        <button className={`genre-tab ${genreId === action ? "active" : ""}`} onClick={() => setGenreId(action)}>Action</button>
-                        <button className={`genre-tab ${genreId === drama ? "active" : ""}`} onClick={() => setGenreId(drama)}>Drama</button>
-                        <button className={`genre-tab ${genreId === comedy ? "active" : ""}`} onClick={() => setGenreId(comedy)}>Comedy</button>
-                        <button className={`genre-tab ${genreId === thriller ? "active" : ""}`} onClick={() => setGenreId(thriller)}>Thriller</button>
-                        <button className={`genre-tab ${genreId === sciFiction ? "active" : ""}`} onClick={() => setGenreId(sciFiction)}>Sci-Fi</button>
-                        <button className={`genre-tab ${genreId === horror ? "active" : ""}`} onClick={() => setGenreId(horror)}>Horror</button>
-                        <button className={`genre-tab ${genreId === romance ? "active" : ""}`} onClick={() => setGenreId(romance)}>Romance</button>
+                        <button className={`genre-tab ${genreId === null ? "active" : ""}`} onClick={() => {
+                            setGenreId(null)
+                            setPage(1)
+                        }}>All</button>
+
+                        <button className={`genre-tab ${genreId === action ? "active" : ""}`} onClick={() => {
+                            setGenreId(action)
+                            setPage(1)
+                        }}>Action</button>
+
+                        <button className={`genre-tab ${genreId === drama ? "active" : ""}`} onClick={() => {
+                            setGenreId(drama)
+                            setPage(1)
+                        }}>Drama</button>
+
+                        <button className={`genre-tab ${genreId === comedy ? "active" : ""}`} onClick={() => {
+                            setGenreId(comedy)
+                            setPage(1)
+                        }}>Comedy</button>
+
+                        <button className={`genre-tab ${genreId === thriller ? "active" : ""}`} onClick={() => {
+                            setGenreId(thriller)
+                            setPage(1)
+                        }}>Thriller</button>
+
+                        <button className={`genre-tab ${genreId === sciFiction ? "active" : ""}`} onClick={() => {
+                            setGenreId(sciFiction)
+                            setPage(1)
+                        }}>Sci-Fi</button>
+
+                        <button className={`genre-tab ${genreId === horror ? "active" : ""}`} onClick={() => {
+                            setGenreId(horror)
+                            setPage(1)
+                        }}>Horror</button>
+
+                        <button className={`genre-tab ${genreId === romance ? "active" : ""}`} onClick={() => {
+                            setGenreId(romance)
+                            setPage(1)
+                        }}>Romance</button>
                     </div>
 
                     {/* 🔧 Replace with: {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)} */}

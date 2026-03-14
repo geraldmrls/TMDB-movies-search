@@ -18,15 +18,8 @@ function App() {
   const [cardId, setCardId] = useState(null); //state lifted for Modal component
   const [movieDetails, setMovieDetails] = useState(null)
   const [movieTrailer, SetMovieTrailer] = useState(null)
-  const [page, setPage] = useState(() => {
-    const pageSaved = localStorage.getItem("page");
-    return pageSaved ? JSON.parse(pageSaved) : 1
-  });
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(()=>{
-    localStorage.setItem("page", JSON.stringify(page))
-  }, [page])
 
   useEffect(() => {
     const tmbdData = async () => {
