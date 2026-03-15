@@ -87,3 +87,13 @@ nav {
 .search-result-item img { width: 32px; height: 46px; object-fit: cover; }
 .search-result-item span { font-size: 0.82rem; }
 
+@media(width <=768px){
+  .search-input:focus{
+    width: 240px;
+  }
+
+  .nav-logo{
+    margin-right: 10px;
+  }
+}
+
