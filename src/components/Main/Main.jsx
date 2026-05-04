@@ -8,8 +8,8 @@ import Trending from "./Trending/Trending";
 import "./Main.css"
 
 
-function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage, topRatedData }) {
-
+function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage }) {
+    const [topRatedData, setTopRatedData] = useState(null)
     const [discoverMovie, setDiscoverMovie] = useState(null)
     const [genreId, setGenreId] = useState(() => {
         const genreIdSaved = localStorage.getItem("genre-id");
@@ -22,15 +22,25 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
         localStorage.setItem("genre-id", JSON.stringify(genreId))
     }, [genreId])
 
+    // fetch movies by genre id
     useEffect(() => {
         const discoverMoviesById = async () => {
             if (genreId) {
-                const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&api_key=${API_KEY}&page=${page}`)
+                let response = await axios.get(`https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&api_key=${API_KEY}&page=${page}`)
                 setDiscoverMovie(response.data);
             }
         }
         discoverMoviesById();
     }, [genreId, API_KEY, page])
+
+    // fetch top rated movies
+    useEffect(() => {
+        const fetchTopRated = async () => {
+            let response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${page}`)
+            setTopRatedData(response.data)
+        }
+        fetchTopRated();
+    }, [API_KEY, page])
 
     function renderSkeleton() {
         return [1, 2, 3, 4, 5, 6, 7, 8].map(num => (
@@ -105,7 +115,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                     </>
                 )
             }
-        }else if(defaultPage === "top_rated"){
+        } else if (defaultPage === "top_rated") {
             return (
                 <>
                     {topRatedData && topRatedData.results.map(movie => {
@@ -163,13 +173,13 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
         <>
             {/* ─── MAIN ─── */}
             <main>
-                <section>
+                <section id="movies-section">
                     <div className="section-header">
                         <h2 className="section-title">{defaultPage === "discover" ? "Discover" : defaultPage === "top_rated" ? "Top Rated" : defaultPage === "trending" ? "Trending" : "Watchlist"}<span></span></h2>
                         <a href="#" className="section-link">View all →</a>
                     </div>
 
-                    <div className="genre-tabs">
+                    <div className={`genre-tabs ${defaultPage === "discover" ? "" : "hidden-genre-tabs"}`}>
                         <button className={`genre-tab ${genreId === null ? "active" : ""}`} onClick={() => {
                             setGenreId(null)
                             setPage(1)

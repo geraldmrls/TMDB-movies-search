@@ -5,7 +5,7 @@ import "./Header.css"
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-function Header({ topRatedData, setDefaultPage, defaultPage }) {
+function Header({setDefaultPage, defaultPage }) {
     const [searchData, setSearchData] = useState(null);
     const [input, setInput] = useState("");
 
@@ -52,13 +52,12 @@ function Header({ topRatedData, setDefaultPage, defaultPage }) {
             <nav>
                 <div className="nav-logo">Cine<span>Vault</span></div>
                 <ul className="nav-links">
-                    <li><a href="#" className={`${defaultPage === "discover" ? "active" : ""}`} onClick={() => setDefaultPage("discover")}>Discover</a></li>
-                    <li><a href="#" className={`${defaultPage === "top_rated" ? "active" : ""}`} onClick={() => {
+                    <li><a href="#movies-section" className={`${defaultPage === "discover" ? "active" : ""}`} onClick={() => setDefaultPage("discover")}>Discover</a></li>
+                    <li><a href="#movies-section" className={`${defaultPage === "top_rated" ? "active" : ""}`} onClick={() => {
                         setDefaultPage("top_rated");
-                        console.log(topRatedData);
                     }}>Top Rated</a></li>
-                    <li><a href="#" className={`${defaultPage === "trending" ? "active" : ""}`} onClick={() => setDefaultPage("trending")}>Trending</a></li>
-                    <li><a href="#" className={`${defaultPage === "watchlist" ? "active" : ""}`} onClick={() => setDefaultPage("watchlist")}>Watchlist</a></li>
+                    <li><a href="#movies-section" className={`${defaultPage === "trending" ? "active" : ""}`} onClick={() => setDefaultPage("trending")}>Trending</a></li>
+                    <li><a href="#movies-section" className={`${defaultPage === "watchlist" ? "active" : ""}`} onClick={() => setDefaultPage("watchlist")}>Watchlist</a></li>
                 </ul>
                 <div className="search-wrap">
                     <span className="search-icon">⌕</span>

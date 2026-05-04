@@ -24,7 +24,6 @@ function App() {
   const [movieTrailer, SetMovieTrailer] = useState(null)
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
-  const [topRatedData, setTopRatedData] = useState(null)
 
   useEffect(() => {
     localStorage.setItem("defaultPage", defaultPage)
@@ -43,8 +42,6 @@ function App() {
       setGenresData(response.data)
       setIsLoading(false)
 
-      response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=1`)
-      setTopRatedData(response.data)
     };
     tmbdData();
   }, [page]);
@@ -70,13 +67,13 @@ function App() {
   return (
     <>
       {/* ─── NAVBAR Header─── */}
-      <Header topRatedData={topRatedData} setDefaultPage={setDefaultPage} defaultPage={defaultPage}/>
+      <Header setDefaultPage={setDefaultPage} defaultPage={defaultPage}/>
 
       {/* ─── HERO ─── */}
       <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId}/>
 
       {/* ----MAIN---- */}
-      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage} topRatedData={topRatedData}/>
+      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage}/>
 
       {/* ─── MODAL ─── */}
       <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} />
