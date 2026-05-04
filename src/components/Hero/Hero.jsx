@@ -5,11 +5,19 @@ import getMatchedGenre from "../../react-functions/getMatchedGenre.js"
 import "./Hero.css"
 
 
-function Hero({ popularData, genresData, randomIndex }) {
+function Hero({ popularData, genresData, randomIndex, setCardId, cardId }) {
 
     if (!popularData || !genresData) return null
 
     const matchedGenre = getMatchedGenre(popularData, genresData, randomIndex);
+
+    function getCardId(movie) {
+        if (movie.id !== cardId) {
+            setCardId(movie.id);
+        } else {
+            setCardId(null)
+        }
+    }
 
     return (
         <section className="hero">
@@ -33,7 +41,7 @@ function Hero({ popularData, genresData, randomIndex }) {
                     {popularData.results[randomIndex].overview}
                 </p>
                 <div className="hero-actions">
-                    <button className="btn-primary">▶ View Details</button>
+                    <button className="btn-primary" onClick={()=>getCardId(popularData.results[randomIndex])}>▶ View Details</button>
                     <button className="btn-secondary">+ Watchlist</button>
                 </div>
             </div>

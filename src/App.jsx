@@ -61,7 +61,7 @@ function App() {
       <Header />
 
       {/* ─── HERO ─── */}
-      <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} />
+      <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId}/>
 
       {/* ----MAIN---- */}
       <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} />
