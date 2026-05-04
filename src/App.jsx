@@ -13,6 +13,10 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const randomIndex = Math.floor(Math.random() * 20);
 
 function App() {
+  const [defaultPage, setDefaultPage] = useState(()=>{
+    const savedPage = localStorage.getItem("defaultPage");
+    return savedPage ? savedPage : "discover"
+  });
   const [popularData, setPopularData] = useState(null);
   const [genresData, setGenresData] = useState(null)
   const [cardId, setCardId] = useState(null); //state lifted for Modal component
@@ -20,6 +24,11 @@ function App() {
   const [movieTrailer, SetMovieTrailer] = useState(null)
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
+  const [topRatedData, setTopRatedData] = useState(null)
+
+  useEffect(() => {
+    localStorage.setItem("defaultPage", defaultPage)
+  }, [defaultPage])
 
   useEffect(() => {
     const tmbdData = async () => {
@@ -33,6 +42,9 @@ function App() {
       response = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
       setGenresData(response.data)
       setIsLoading(false)
+
+      response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=1`)
+      setTopRatedData(response.data)
     };
     tmbdData();
   }, [page]);
@@ -58,13 +70,13 @@ function App() {
   return (
     <>
       {/* ─── NAVBAR Header─── */}
-      <Header />
+      <Header topRatedData={topRatedData} setDefaultPage={setDefaultPage} defaultPage={defaultPage}/>
 
       {/* ─── HERO ─── */}
       <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId}/>
 
       {/* ----MAIN---- */}
-      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} />
+      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage} topRatedData={topRatedData}/>
 
       {/* ─── MODAL ─── */}
       <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} />
@@ -73,7 +85,7 @@ function App() {
       <footer>
         <div className="footer-logo">Cine<span>Vault</span></div>
         <span>Powered by TMDB API</span>
-        <span>© 2024 · By Gerald Morales</span>
+        <span>© 2026 · By Gerald Morales</span>
       </footer>
     </>
   );

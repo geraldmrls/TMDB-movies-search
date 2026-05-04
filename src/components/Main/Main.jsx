@@ -8,7 +8,7 @@ import Trending from "./Trending/Trending";
 import "./Main.css"
 
 
-function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading }) {
+function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage, topRatedData }) {
 
     const [discoverMovie, setDiscoverMovie] = useState(null)
     const [genreId, setGenreId] = useState(() => {
@@ -57,32 +57,58 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
 
     function renderGrid() {
         if (isLoading) return renderSkeleton()
-        if (genreId === null) {
-            return (
-                <>
-                    {popularData && popularData.results.map(movie => (
-                        <div className="movie-card" key={movie.id} >
-                            <div className="card-poster">
-                                <div className="card-img-placeholder">
-                                    <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+        if (defaultPage === "discover") {
+            if (genreId === null) {
+                return (
+                    <>
+                        {popularData && popularData.results.map(movie => (
+                            <div className="movie-card" key={movie.id} >
+                                <div className="card-poster">
+                                    <div className="card-img-placeholder">
+                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                    </div>
+                                    <div className="card-rating">★ {movie.vote_average}</div>
+                                    <div className="card-overlay" onClick={() => getCardId(movie)}>
+                                        <button className="card-overlay-btn" onClick={() => {
+                                            getCardId(movie)
+                                        }}>Details</button>
+                                    </div>
                                 </div>
-                                <div className="card-rating">★ {movie.vote_average}</div>
-                                <div className="card-overlay" onClick={() => getCardId(movie)}>
-                                    <button className="card-overlay-btn" onClick={() => {
-                                        getCardId(movie)
-                                    }}>Details</button>
-                                </div>
+                                <div className="card-title">{movie.original_title}</div>
+                                <div className="card-year">{movie.release_date}</div>
                             </div>
-                            <div className="card-title">{movie.original_title}</div>
-                            <div className="card-year">{movie.release_date}</div>
-                        </div>
-                    ))}
-                </>
-            )
-        } else {
+                        ))}
+                    </>
+                )
+            } else {
+                return (
+                    <>
+                        {discoverMovie && discoverMovie.results.map(movie => {
+                            return (
+                                <div className="movie-card" key={movie.id} >
+                                    <div className="card-poster">
+                                        <div className="card-img-placeholder">
+                                            <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                        </div>
+                                        <div className="card-rating">★ {movie.vote_average}</div>
+                                        <div className="card-overlay" onClick={() => getCardId(movie)}>
+                                            <button className="card-overlay-btn" onClick={() => {
+                                                getCardId(movie)
+                                            }}>Details</button>
+                                        </div>
+                                    </div>
+                                    <div className="card-title">{movie.original_title}</div>
+                                    <div className="card-year">{movie.release_date}</div>
+                                </div>
+                            )
+                        })}
+                    </>
+                )
+            }
+        }else if(defaultPage === "top_rated"){
             return (
                 <>
-                    {discoverMovie && discoverMovie.results.map(movie => {
+                    {topRatedData && topRatedData.results.map(movie => {
                         return (
                             <div className="movie-card" key={movie.id} >
                                 <div className="card-poster">
@@ -139,7 +165,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
             <main>
                 <section>
                     <div className="section-header">
-                        <h2 className="section-title">Popular <span>Films</span></h2>
+                        <h2 className="section-title">{defaultPage === "discover" ? "Discover" : defaultPage === "top_rated" ? "Top Rated" : defaultPage === "trending" ? "Trending" : "Watchlist"}<span></span></h2>
                         <a href="#" className="section-link">View all →</a>
                     </div>
 
