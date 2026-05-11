@@ -10,6 +10,7 @@ import "./Main.css"
 
 function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage }) {
     const [topRatedData, setTopRatedData] = useState(null)
+    const [trendingData, setTrendingData] = useState(null)
     const [discoverMovie, setDiscoverMovie] = useState(null)
     const [genreId, setGenreId] = useState(() => {
         const genreIdSaved = localStorage.getItem("genre-id");
@@ -33,11 +34,14 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
         discoverMoviesById();
     }, [genreId, API_KEY, page])
 
-    // fetch top rated movies
+    // fetch top rated movies - trending
     useEffect(() => {
         const fetchTopRated = async () => {
             let response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${page}`)
             setTopRatedData(response.data)
+
+            response = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&page=${page}`)
+            setTrendingData(response.data)
         }
         fetchTopRated();
     }, [API_KEY, page])
@@ -119,6 +123,30 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
             return (
                 <>
                     {topRatedData && topRatedData.results.map(movie => {
+                        return (
+                            <div className="movie-card" key={movie.id} >
+                                <div className="card-poster">
+                                    <div className="card-img-placeholder">
+                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                    </div>
+                                    <div className="card-rating">★ {movie.vote_average}</div>
+                                    <div className="card-overlay" onClick={() => getCardId(movie)}>
+                                        <button className="card-overlay-btn" onClick={() => {
+                                            getCardId(movie)
+                                        }}>Details</button>
+                                    </div>
+                                </div>
+                                <div className="card-title">{movie.original_title}</div>
+                                <div className="card-year">{movie.release_date}</div>
+                            </div>
+                        )
+                    })}
+                </>
+            )
+        } else if (defaultPage === "trending") {
+            return (
+                <>
+                    {trendingData && trendingData.results.map(movie => {
                         return (
                             <div className="movie-card" key={movie.id} >
                                 <div className="card-poster">
