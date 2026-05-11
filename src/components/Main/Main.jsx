@@ -81,7 +81,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                                     <div className="card-img-placeholder">
                                         <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
                                     </div>
-                                    <div className="card-rating">★ {movie.vote_average}</div>
+                                    <div className="card-rating">★ {(movie.vote_average).toFixed(1)}</div>
                                     <div className="card-overlay" onClick={() => getCardId(movie)}>
                                         <button className="card-overlay-btn" onClick={() => {
                                             getCardId(movie)
@@ -129,7 +129,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                                     <div className="card-img-placeholder">
                                         <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
                                     </div>
-                                    <div className="card-rating">★ {movie.vote_average}</div>
+                                    <div className="card-rating">★ {(movie.vote_average).toFixed(1)}</div>
                                     <div className="card-overlay" onClick={() => getCardId(movie)}>
                                         <button className="card-overlay-btn" onClick={() => {
                                             getCardId(movie)
@@ -153,7 +153,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                                     <div className="card-img-placeholder">
                                         <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
                                     </div>
-                                    <div className="card-rating">★ {movie.vote_average}</div>
+                                    <div className="card-rating">★ {(movie.vote_average).toFixed(1)}</div>
                                     <div className="card-overlay" onClick={() => getCardId(movie)}>
                                         <button className="card-overlay-btn" onClick={() => {
                                             getCardId(movie)
