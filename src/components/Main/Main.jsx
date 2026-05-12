@@ -8,7 +8,7 @@ import Trending from "./Trending/Trending";
 import "./Main.css"
 
 
-function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage }) {
+function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoading, defaultPage, watchList }) {
     const [topRatedData, setTopRatedData] = useState(null)
     const [trendingData, setTrendingData] = useState(null)
     const [discoverMovie, setDiscoverMovie] = useState(null)
@@ -17,7 +17,6 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
         return genreIdSaved ? JSON.parse(genreIdSaved) : null
     })
     const [buttons, setButtons] = useState([1, 2, 3]);
-
 
     useEffect(() => {
         localStorage.setItem("genre-id", JSON.stringify(genreId))
@@ -76,7 +75,7 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                 return (
                     <>
                         {popularData && popularData.results.map(movie => (
-                            <div className="movie-card" key={movie.id} >
+                            <div className="movie-card" key={movie.id}>
                                 <div className="card-poster">
                                     <div className="card-img-placeholder">
                                         <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
@@ -147,6 +146,30 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
             return (
                 <>
                     {trendingData && trendingData.results.map(movie => {
+                        return (
+                            <div className="movie-card" key={movie.id} >
+                                <div className="card-poster">
+                                    <div className="card-img-placeholder">
+                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="movie poster" />
+                                    </div>
+                                    <div className="card-rating">★ {(movie.vote_average).toFixed(1)}</div>
+                                    <div className="card-overlay" onClick={() => getCardId(movie)}>
+                                        <button className="card-overlay-btn" onClick={() => {
+                                            getCardId(movie)
+                                        }}>Details</button>
+                                    </div>
+                                </div>
+                                <div className="card-title">{movie.original_title}</div>
+                                <div className="card-year">{movie.release_date}</div>
+                            </div>
+                        )
+                    })}
+                </>
+            )
+        }else if(defaultPage === "watchlist"){
+            return (
+                <>
+                    {watchList && watchList.map(movie => {
                         return (
                             <div className="movie-card" key={movie.id} >
                                 <div className="card-poster">

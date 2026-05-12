@@ -13,7 +13,7 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const randomIndex = Math.floor(Math.random() * 20);
 
 function App() {
-  const [defaultPage, setDefaultPage] = useState(()=>{
+  const [defaultPage, setDefaultPage] = useState(() => {
     const savedPage = localStorage.getItem("defaultPage");
     return savedPage ? savedPage : "discover"
   });
@@ -24,6 +24,12 @@ function App() {
   const [movieTrailer, SetMovieTrailer] = useState(null)
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
+
+  // watch list state
+  const [watchList, setWatchList] = useState(() => {
+    const watchListSaved = localStorage.getItem("watch-list");
+    return watchListSaved ? JSON.parse(watchListSaved) : []
+  })
 
   useEffect(() => {
     localStorage.setItem("defaultPage", defaultPage)
@@ -67,16 +73,16 @@ function App() {
   return (
     <>
       {/* ─── NAVBAR Header─── */}
-      <Header setDefaultPage={setDefaultPage} defaultPage={defaultPage}/>
+      <Header setDefaultPage={setDefaultPage} defaultPage={defaultPage} />
 
       {/* ─── HERO ─── */}
-      <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId}/>
+      <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId} />
 
       {/* ----MAIN---- */}
-      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage}/>
+      <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage} watchList={watchList}/>
 
       {/* ─── MODAL ─── */}
-      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} />
+      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} setWatchList={setWatchList} />
 
       {/* ─── FOOTER ─── */}
       <footer>

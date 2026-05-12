@@ -1,11 +1,10 @@
-import { Fragment } from "react";
+import { Fragment} from "react";
 
 import "./Modal.css"
 
-function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
+function Modal({ cardId, setCardId, movieDetails, movieTrailer, setWatchList }) {
 
     if (!movieDetails) return null;
-
 
     function convertTime() {
         const hours = Math.floor(movieDetails.runtime / 60);
@@ -30,8 +29,8 @@ function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
 
     return (
         <>
-            <div className={`modal-overlay ${!cardId ? "" : "active"}`} onClick={()=>{setCardId(null)}}>
-                <div className="modal" onClick={(e)=>{e.stopPropagation()}}>
+            <div className={`modal-overlay ${!cardId ? "" : "active"}`} onClick={() => { setCardId(null) }}>
+                <div className="modal" onClick={(e) => { e.stopPropagation() }}>
                     <button className="modal-close" onClick={() => {
                         setCardId(null)
                     }}>✕</button>
@@ -55,7 +54,15 @@ function Modal({ cardId, setCardId, movieDetails, movieTrailer }) {
                             <a href={`https://www.youtube.com/watch?v=${trailer?.key}`} target="_blank">
                                 <button className="btn-primary">▶ Watch Trailer</button>
                             </a>
-                            <button className="btn-secondary">+ Watchlist</button>
+                            <button className="btn-secondary" onClick={()=>{
+                                setWatchList(currentWatchItem=>{
+                                    const isAlreadyInWatchList = currentWatchItem.find(watchItem=> watchItem.id === movieDetails.id);
+                                    if(isAlreadyInWatchList){
+                                        return currentWatchItem;
+                                    }
+                                    return [...currentWatchItem, movieDetails]
+                                })
+                            }}>+ Watchlist</button>
                         </div>
                     </div>
                 </div>
