@@ -167,6 +167,15 @@ function Main({ popularData, cardId, setCardId, API_KEY, setPage, page, isLoadin
                 </>
             )
         }else if(defaultPage === "watchlist"){
+
+            if(watchList.length === 0){
+                return (
+                    <div className="empty-watchlist">
+                        <p>Your watchlist is empty.</p>
+                    </div>
+                )
+            }
+
             return (
                 <>
                     {watchList && watchList.map(movie => {

@@ -33,7 +33,8 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("defaultPage", defaultPage)
-  }, [defaultPage])
+    localStorage.setItem("watch-list", JSON.stringify(watchList))
+  }, [defaultPage, watchList])
 
   useEffect(() => {
     const tmbdData = async () => {
