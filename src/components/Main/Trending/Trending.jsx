@@ -29,14 +29,13 @@ function Trending({ API_KEY }) {
                         <div className="movie-card" key={movie.id}>
                             <div className="card-poster">
                                 <div className="card-img-placeholder">
-                                    <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}/>
+                                    <img className="trending-image" src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}/>
                                 </div>
-                                <div className="card-rating">★ {movie.vote_count}</div>
+                                <div className="card-rating">★ {(movie.vote_average).toFixed(1)}</div>
                                 <div className="card-overlay">
                                     <button className="card-overlay-btn">{movie.overview}</button>
                                 </div>
                             </div>
-                            <div className="card-title">{movie.original_title}</div>
                             <div className="card-year">{movie.release_date}</div>
                         </div>
                     ))}
