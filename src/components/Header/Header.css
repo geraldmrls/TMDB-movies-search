@@ -87,6 +87,25 @@ nav {
 .search-result-item img { width: 32px; height: 46px; object-fit: cover; }
 .search-result-item span { font-size: 0.82rem; }
 
+.watchlist-tab{
+  position: relative;
+}
+
+.watchlist-count{
+  position: absolute;
+  right: -15px;
+  top: -3px;
+  color: white;
+  font-size: 0.7rem;
+  background-color: var(--gold);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media(width <=768px){
   .search-input:focus{
     width: 240px;

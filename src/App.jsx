@@ -74,7 +74,7 @@ function App() {
   return (
     <>
       {/* ─── NAVBAR Header─── */}
-      <Header setDefaultPage={setDefaultPage} defaultPage={defaultPage} />
+      <Header setDefaultPage={setDefaultPage} defaultPage={defaultPage} watchList={watchList}/>
 
       {/* ─── HERO ─── */}
       <Hero popularData={popularData} genresData={genresData} randomIndex={randomIndex} setCardId={setCardId} cardId={cardId} />

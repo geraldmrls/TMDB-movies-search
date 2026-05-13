@@ -5,7 +5,7 @@ import "./Header.css"
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-function Header({setDefaultPage, defaultPage }) {
+function Header({ setDefaultPage, defaultPage, watchList }) {
     const [searchData, setSearchData] = useState(null);
     const [input, setInput] = useState("");
 
@@ -47,6 +47,9 @@ function Header({setDefaultPage, defaultPage }) {
         }
     }
 
+    // total watchlist count for header
+    const watchListCount = watchList.length;
+
     return (
         <>
             <nav>
@@ -57,7 +60,11 @@ function Header({setDefaultPage, defaultPage }) {
                         setDefaultPage("top_rated");
                     }}>Top Rated</a></li>
                     <li><a href="#movies-section" className={`${defaultPage === "trending" ? "active" : ""}`} onClick={() => setDefaultPage("trending")}>Trending</a></li>
-                    <li><a href="#movies-section" className={`${defaultPage === "watchlist" ? "active" : ""}`} onClick={() => setDefaultPage("watchlist")}>Watchlist</a></li>
+                    <li className="watchlist-tab">
+                        <a href="#movies-section" className={`${defaultPage === "watchlist" ? "active" : ""}`} onClick={() => setDefaultPage("watchlist")}>Watchlist
+                        </a>
+                        <span className="watchlist-count">{watchListCount}</span>
+                    </li>
                 </ul>
                 <div className="search-wrap">
                     <span className="search-icon">⌕</span>
