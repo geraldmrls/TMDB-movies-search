@@ -1,8 +1,8 @@
-import { Fragment} from "react";
+import { Fragment } from "react";
 
 import "./Modal.css"
 
-function Modal({ cardId, setCardId, movieDetails, movieTrailer, setWatchList }) {
+function Modal({ cardId, setCardId, movieDetails, movieTrailer, setWatchList, defaultPage }) {
 
     if (!movieDetails) return null;
 
@@ -26,6 +26,16 @@ function Modal({ cardId, setCardId, movieDetails, movieTrailer, setWatchList }) 
     const trailer = movieTrailer?.results?.find(video => {
         return video.type === "Trailer" && video.site === "YouTube"
     })
+
+    function handleWatchList() {
+        setWatchList(currentWatchItem => {
+            const isAlreadyInWatchList = currentWatchItem.find(watchItem => watchItem.id === movieDetails.id);
+            if (isAlreadyInWatchList) {
+                return currentWatchItem;
+            }
+            return [...currentWatchItem, movieDetails]
+        })
+    }
 
     return (
         <>
@@ -54,15 +64,19 @@ function Modal({ cardId, setCardId, movieDetails, movieTrailer, setWatchList }) 
                             <a href={`https://www.youtube.com/watch?v=${trailer?.key}`} target="_blank">
                                 <button className="btn-primary">▶ Watch Trailer</button>
                             </a>
-                            <button className="btn-secondary" onClick={()=>{
-                                setWatchList(currentWatchItem=>{
-                                    const isAlreadyInWatchList = currentWatchItem.find(watchItem=> watchItem.id === movieDetails.id);
-                                    if(isAlreadyInWatchList){
-                                        return currentWatchItem;
-                                    }
-                                    return [...currentWatchItem, movieDetails]
-                                })
-                            }}>+ Watchlist</button>
+                            {defaultPage !== "watchlist" && (
+                                <button className="btn-secondary" onClick={() => {
+                                    handleWatchList()
+                                }}>+ Watchlist</button>
+                            )}
+
+                            {defaultPage === "watchlist" && (
+                                <button className="btn-secondary" onClick={() => {
+                                    setWatchList(currentWatchItem => {
+                                        return currentWatchItem.filter(watchItem => watchItem.id !== movieDetails.id)
+                                    })
+                                }}>- Remove</button>
+                            )}
                         </div>
                     </div>
                 </div>

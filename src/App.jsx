@@ -83,7 +83,7 @@ function App() {
       <Main popularData={popularData} cardId={cardId} setCardId={setCardId} API_KEY={API_KEY} setPage={setPage} page={page} isLoading={isLoading} defaultPage={defaultPage} watchList={watchList}/>
 
       {/* ─── MODAL ─── */}
-      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} setWatchList={setWatchList} />
+      <Modal cardId={cardId} setCardId={setCardId} movieDetails={movieDetails} movieTrailer={movieTrailer} setWatchList={setWatchList} defaultPage={defaultPage}/>
 
       {/* ─── FOOTER ─── */}
       <footer>
